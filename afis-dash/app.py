@@ -95,8 +95,8 @@ app.layout = html.Div(
                                     id="date-picker",
                                     min_date_allowed=dt(2016, 1, 1),
                                     max_date_allowed=dt(2019, 12, 31),
-                                    initial_visible_month=dt(2019, 12, 1),
-                                    date=dt(2019, 12, 1).date(),
+                                    initial_visible_month=dt(2019, 6, 1),
+                                    date=dt(2019, 6, 1).date(),
                                     display_format="MMMM D, YYYY",
                                     style={"border": "0px solid black"},
                                 )
@@ -119,12 +119,37 @@ app.layout = html.Div(
                                         )
                                     ],
                                 ),
+                        html.Div(
+                                    className="div-for-dropdown",
+                                    children=[
+                                        
+                                        html.P(
+                                            """Select data source to show on map"""
+                        ),
+                                        dcc.RadioItems(
+                                            id="source-select",
+                                            options=[
+                                                {"label": 'MODIS', "value": 'MODIS'},
+                                                {"label": 'VIIRS', "value": 'VIIRS'},
+                                            ],
+                                            
+                                            labelStyle = {
+                                                'display' : 'inline-block',
+                                                'margin-right' : 80
+                                                },
+                                            value = 'MODIS',
+                                        )
+                                    ],
+                                ),
+                        
                         
                         html.Div(
                             className="text1-padding",
                             children=[
                                 """
+                             
                                 """
+                                
                             ],
                         ),
                         
@@ -241,17 +266,26 @@ def update_bar(selected_year, selected_source):
 
 @app.callback(Output('graph', 'figure'),
               [Input('date-picker', 'date'),
-               Input("location-dropdown", "value"),])
+               Input("location-dropdown", "value"),
+               Input("source-select", "value"),
+               ])
 
 
-def update_graph(selected_date, selectedLocation):
+def update_graph(selected_date, selectedLocation, selectedSource):
     zoom = 3
     latInitial = 8.56
     lonInitial = 1.56
     bearing = 0
-    mapData = pd.read_csv('Data/West_Africa_MODIS_FireHotspots.csv')
-    # mapData['acq_date'] = pd.to_datetime(mapData['acq_date'])
-    mapData1 = mapData[mapData['acq_date'] == selected_date]
+    
+    if selectedSource == "MODIS":
+        mapData = pd.read_csv('Data/West_Africa_MODIS_FireHotspots.csv')
+        mapData1 = mapData[mapData['acq_date'] == selected_date]
+        color ='rgb(255,99,71)'
+        
+    if selectedSource == "VIIRS":
+        mapData = pd.read_csv('Data/West_Africa_VIIRS_FireHotspots.csv')
+        mapData1 = mapData[mapData['acq_date'] == selected_date]
+        color ='rgb(222, 15, 11)'
 
     if selectedLocation:
         zoom = 5
@@ -265,10 +299,10 @@ def update_graph(selected_date, selectedLocation):
                 lat=mapData1['latitude'],
                 lon=mapData1['longitude'],
                 mode="markers",
-                hoverinfo= mapData['brightness'],
+                #hoverinfo= mapData['brightness'],
                 marker=go.scattermapbox.Marker(
                     size=5,
-                    color='rgb(255,99,71)',
+                    color= color,
                     opacity=0.7
                 )
                 ),   
@@ -323,4 +357,4 @@ def update_graph(selected_date, selectedLocation):
 
 
 if __name__ == "__main__":
-    app.run_server(debug=False)
+    app.run_server()
