@@ -41,7 +41,7 @@ python app.py
 You can run the app on your browser at http://127.0.0.1:8050
 
 # Screenshot
-![afis-dash screenshot](https://user-images.githubusercontent.com/29225371/82271038-300b9200-9966-11ea-94d9-33526a146651.PNG)
+![afis-dash screenshot2](https://user-images.githubusercontent.com/29225371/82278826-9c908c00-997a-11ea-9c9e-f7756b00ab12.PNG)
 
 # Resources
 ### Data Sources:
