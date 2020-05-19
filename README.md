@@ -10,6 +10,10 @@ To run this app first clone repository and then open a terminal to the app folde
 git clone https://github.com/nkwasey/dash-afis-map.git
 cd afis-dash
 ```
+# Download Data Files
+Download data from [here](https://drive.google.com/open?id=1dafxv9KEa1DhH9xSan2ytfshTDD8HjNx).
+Copy the Data folder into /afis-dash/
+
 # Create a virtual environment for your project
 Create and activate a new virtual environment (recommended) by running the following:
 
