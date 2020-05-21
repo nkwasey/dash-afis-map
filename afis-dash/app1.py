@@ -182,7 +182,7 @@ app.layout = html.Div(
                                         dcc.Dropdown(
                                             id="year-picker",
                                             options= year_options,
-                                            value = df['Year'].min(),
+                                            value = df['Year'].max(),
                                             placeholder="Select a year",
                                         )
                                     ],
